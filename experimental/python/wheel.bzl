@@ -126,6 +126,8 @@ def _py_wheel_impl(ctx):
         extra_headers.append("Home-page: %s" % ctx.attr.homepage)
     if ctx.attr.license:
         extra_headers.append("License: %s" % ctx.attr.license)
+    if ctx.attr.python_version:
+        extra_headers.append("Requires-Python: %s" % ctx.attr.python_version)
 
     for h in extra_headers:
         args.add("--header", h)
@@ -247,6 +249,10 @@ _other_attrs = {
     "description_file": attr.label(allow_single_file = True),
     "homepage": attr.string(default = ""),
     "license": attr.string(default = ""),
+    "python_version": attr.string(
+        default = "",
+        doc = "required Python version, eg '>=3.8'",
+    ),
     "strip_path_prefixes": attr.string_list(
         default = [],
         doc = "path prefixes to strip from files added to the generated package",
